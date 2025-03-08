@@ -89,15 +89,14 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Menu container on right, items left-aligned */}
+          {/* Menu container - removed justify-self-end to align left */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="md:justify-self-end"
           >
-          
+        
             <ul className="space-y-3">
               {["Home", "About", "Services", "Projects", "Blog", "Review", "Contact"].map((item, index) => (
                 <li key={index}>

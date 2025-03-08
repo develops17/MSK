@@ -1,0 +1,13 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: black;
+}
+
+html {
+    background-color: black;
+}
+html, body {
+    height: 100%;
+  }

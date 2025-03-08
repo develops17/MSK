@@ -1,6 +1,4 @@
 import React from 'react'
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
 import CutoutSection from './components/CutoutSection'
 import ServicesSection from './components/ServicesSection'
 import './App.css'
@@ -10,6 +8,8 @@ import WorkSection from './components/Works'
 import BentoGrid from './components/Bento'
 import ContactSection from './components/Contact'
 import Footer from './components/Footer'
+import Navbar from './components/navbar'
+import HeroSection from './components/herosection'
 
 
 function App() {

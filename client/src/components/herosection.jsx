@@ -113,7 +113,7 @@ function HeroSection() {
             
             {/* Subtitle - centered with increased width */}
             <motion.h2 
-              className="text-lg sm:text-xl md:text-1xl text-gray-300 mb-5 font-satoshi mx-auto max-w-2xl px-4"
+              className="text-sm sm:text-xl md:text-1xl text-gray-300 mb-5 font-satoshi mx-auto max-w-2xl px-4"
               variants={itemVariants}
             >
               We elevate Events through Innovation, Technology & Unforgettable Experiences.

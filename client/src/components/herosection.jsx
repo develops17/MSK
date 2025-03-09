@@ -104,10 +104,9 @@ function HeroSection() {
               
               <motion.span
                 className="inline-flex ml-2 align-middle"
-                variants={iconVariants}
-                whileHover="hover"
+                
               >
-                <FaBullhorn className="text-white bg-[#D80074] px-3 pt-2 pb-1 rounded-full text-5xl sm:text-6xl lg:text-7xl" />
+                <FaBullhorn className="text-white bg-[#D80074] px-3 pt-2 pb-1 rounded-full text-5xl sm:text-3xl lg:text-7xl" />
               </motion.span>
             </motion.h1>
             

@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 
 const AgencyCard = ({ heading }) => {
   return (
-    <div className="relative w-full max-w-sm sm:max-w-md rounded-3xl bg-gradient-to-r from-black/50 to-gray-900/50 text-white p-4 sm:p-6 overflow-hidden backdrop-blur-md border border-white/10 shadow-xl font-unbounded">
+    <div className="relative w-full rounded-3xl bg-gradient-to-r from-black/50 to-gray-900/50 text-white p-4 sm:p-6 overflow-hidden backdrop-blur-md border border-white/10 shadow-xl font-unbounded">
       {/* Overlay gradient for the top part */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#D80074]/20 to-transparent"></div>
       
@@ -65,15 +65,17 @@ const AgencyCard = ({ heading }) => {
 
 const AgencyCards = () => {
   return (
-    <div className="flex justify-center md:justify-between w-full">
-      <div className="w-full md:flex-1 mx-4">
-        <AgencyCard heading="PIONEERS OF DRONE LIGHT SHOW" />
-      </div>
-      <div className="hidden md:block md:flex-1 mx-4">
-        <AgencyCard heading="OPERATING IN USA, UK, EUROPE & CANADA" />
-      </div>
-      <div className="hidden md:block md:flex-1 mx-4">
-        <AgencyCard heading="TRANSFORMING BRAND EXPERIENCES GLOBALLY" />
+    <div className="container mx-auto max-w-7xl px-4">
+      <div className="flex justify-center md:justify-between w-full md:space-x-6">
+        <div className="w-[95%] sm:w-[85%] md:w-1/3">
+          <AgencyCard heading="PIONEERS OF DRONE LIGHT SHOW" />
+        </div>
+        <div className="hidden md:block md:w-1/3">
+          <AgencyCard heading="OPERATING IN USA, UK, EUROPE & CANADA" />
+        </div>
+        <div className="hidden md:block md:w-1/3">
+          <AgencyCard heading="TRANSFORMING BRAND EXPERIENCES GLOBALLY" />
+        </div>
       </div>
     </div>
   );

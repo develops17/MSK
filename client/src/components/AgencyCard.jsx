@@ -65,8 +65,8 @@ const AgencyCard = ({ heading }) => {
 
 const AgencyCards = () => {
   return (
-    <div className="container mx-auto max-w-7xl px-3">
-      <div className="flex justify-center md:justify-between w-full md:space-x-6">
+    <div className="container mx-auto max-w-10xl px-3">
+      <div className="flex justify-center md:justify-between w-full md:space-x-10">
         <div className="w-[95%] sm:w-[85%] md:w-1/3">
           <AgencyCard heading="PIONEERS OF DRONE LIGHT SHOW" />
         </div>
@@ -74,7 +74,7 @@ const AgencyCards = () => {
           <AgencyCard heading="OPERATING IN USA, UK, EUROPE & CANADA" />
         </div>
         <div className="hidden md:block md:w-1/3">
-          <AgencyCard heading="TRANSFORMING BRAND EXPERIENCES GLOBALLY" />
+          <AgencyCard heading="TRANSFORMING BRAND EXPERIENCES ONLINE" />
         </div>
       </div>
     </div>

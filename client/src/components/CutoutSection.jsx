@@ -81,7 +81,7 @@ const CutoutSection = () => {
       </motion.div>
 
       {/* Agency card with responsive positioning */}
-      <div className="absolute bottom-[0px] sm:bottom-[-20px] md:bottom-[40px] z-50 w-full px-4 md:px-0">
+      <div className="absolute bottom-[0px] sm:bottom-[-20px] md:bottom-[40px] z-50 w-full px-4 md:px-2">
         <AgencyCard />
       </div>
     </section>

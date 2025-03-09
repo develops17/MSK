@@ -69,7 +69,7 @@ const CutoutSection = () => {
   />
 </motion.div>
 
-<div className="absolute bottom-[-20px] md:bottom-[40px] z-50 mt-8">
+<div className="absolute bottom-[0px] md:bottom-[40px] z-50 mt-8">
   <AgencyCard />
 </div>
     </section>

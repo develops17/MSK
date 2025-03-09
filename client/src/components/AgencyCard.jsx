@@ -65,7 +65,7 @@ const AgencyCard = ({ heading }) => {
 
 const AgencyCards = () => {
   return (
-    <div className="container mx-auto max-w-7xl px-4">
+    <div className="container mx-auto max-w-7xl px-3">
       <div className="flex justify-center md:justify-between w-full md:space-x-6">
         <div className="w-[95%] sm:w-[85%] md:w-1/3">
           <AgencyCard heading="PIONEERS OF DRONE LIGHT SHOW" />

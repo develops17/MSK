@@ -3,7 +3,7 @@ import { ArrowRight, Layers, Calendar, Lightbulb, Megaphone, FileText, Glasses, 
 
 function Services() {
   return (
-    <div className="min-h-screen bg-black text-white font-unbounded">
+    <div className="min-h-screen z-0 bg-black text-white font-unbounded">
       <div className="container mx-auto px-4 py-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
           <div>

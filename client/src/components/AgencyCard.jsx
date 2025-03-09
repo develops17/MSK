@@ -9,8 +9,8 @@ const AgencyCard = ({ heading }) => {
       
       {/* Content container */}
       <div className="relative z-10">
-        {/* Headline */}
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+        {/* Headline with medium font weight */}
+        <h2 className="text-lg sm:text-xl md:text-2xl font-medium tracking-tight subpixel-antialiased">
           {heading}
         </h2>
         
@@ -24,22 +24,22 @@ const AgencyCard = ({ heading }) => {
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100&q=80" 
               alt="Team member" 
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-800 object-cover"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-800 object-cover"
             />
             <img 
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100&q=80" 
               alt="Team member" 
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-800 object-cover"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-800 object-cover"
             />
             <img 
               src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100&q=80" 
               alt="Team member" 
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-800 object-cover"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-800 object-cover"
             />
             <img 
               src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100&q=80" 
               alt="Team member" 
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-gray-800 object-cover"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-800 object-cover"
             />
           </div>
           
@@ -67,13 +67,13 @@ const AgencyCards = () => {
   return (
     <div className="flex justify-center md:justify-between w-full">
       <div className="w-full md:flex-1 mx-4">
-        <AgencyCard heading="Pioneers of Drone Light Show" />
+        <AgencyCard heading="PIONEERS OF DRONE LIGHT SHOW" />
       </div>
       <div className="hidden md:block md:flex-1 mx-4">
-        <AgencyCard heading="Operating in USA, UK, Europe & Canada" />
+        <AgencyCard heading="OPERATING IN USA, UK, EUROPE & CANADA" />
       </div>
       <div className="hidden md:block md:flex-1 mx-4">
-        <AgencyCard heading="Transforming Brand Experiences Globally" />
+        <AgencyCard heading="TRANSFORMING BRAND EXPERIENCES GLOBALLY" />
       </div>
     </div>
   );

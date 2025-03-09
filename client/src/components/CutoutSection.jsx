@@ -33,7 +33,7 @@ const CutoutSection = () => {
   };
 
   return (
-    <section className="relative flex items-center justify-center h-[45vh] md:h-[90vh] w-full bg-gradient-to-b from-black via-black-300 via-pink-700 to-black overflow-hidden">
+    <section className="relative flex items-center justify-center h-[50vh] md:h-[90vh] w-full bg-gradient-to-b from-black via-black-300 via-pink-700 to-black overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
       <Marquee gradient={false} speed={210}>
   <div className="text-5xl md:text-9xl font-medium text-white font-unbounded mx-4">
@@ -57,7 +57,7 @@ const CutoutSection = () => {
 </Marquee>
       </div>
       <motion.div 
-  className="relative z-10 flex justify-center items-end w-full pb-10 md:pb-[70px]" 
+  className="relative z-10 flex justify-center items-end w-full pb-20 md:pb-[70px]" 
   variants={imageVariants}
   initial="hidden"
   animate={isLoaded ? "visible" : "hidden"}
@@ -69,7 +69,7 @@ const CutoutSection = () => {
   />
 </motion.div>
 
-<div className="absolute bottom-[0px] md:bottom-[40px] z-50 mt-8">
+<div className="absolute bottom-[-20px] md:bottom-[40px] z-50 mt-8">
   <AgencyCard />
 </div>
     </section>

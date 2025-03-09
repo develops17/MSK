@@ -3,6 +3,10 @@ html, body {
     padding: 0;
     width: 100%;
     background-color: black;
+    
+        scroll-behavior: smooth;
+      
+      
 }
 
 html {

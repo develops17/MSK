@@ -4,7 +4,9 @@ import { motion } from 'framer-motion';
 const WorkSection = () => {
   const [activeProject, setActiveProject] = useState(null);
   const [isInView, setIsInView] = useState(false);
+  const [visibleProjects, setVisibleProjects] = useState({});
   const sectionRef = useRef(null);
+  const projectRefs = useRef({});
 
   // Projects data
   const projects = [
@@ -28,7 +30,7 @@ const WorkSection = () => {
       id: 3,
       title: "LemFi",
       description: "We executed dynamic on-ground activations, trade events, and strategic partnerships to establish LemFi's brand presence in competitive markets, driving customer acquisition and engagement.",
-      benefits: ["5000+ customers acquired in 3 months", "70% increase in awareness"],
+      benefits: ["5000+ customers acquired", "70% increase in awareness"],
       image: "https://framerusercontent.com/images/kdj8c0XjQznAjUX4vXXe541UESc.jpg?scale-down-to=2048",
       category: "Marketing"
     },
@@ -67,32 +69,46 @@ const WorkSection = () => {
     };
   }, []);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
+  // Set up individual observers for each project card
+  useEffect(() => {
+    const observers = {};
 
-  const itemVariants = {
-    hidden: { 
-      y: 50, 
-      opacity: 0 
-    },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15
+    // Create an observer for each project
+    projects.forEach(project => {
+      observers[project.id] = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            // Update state when a project becomes visible
+            setVisibleProjects(prev => ({
+              ...prev,
+              [project.id]: true
+            }));
+            observers[project.id].unobserve(entry.target);
+          }
+        },
+        { threshold: 0.2 }
+      );
+    });
+
+    // Start observing each project ref
+    projects.forEach(project => {
+      const ref = projectRefs.current[project.id];
+      if (ref) {
+        observers[project.id].observe(ref);
       }
-    },
-  };
+    });
 
+    // Clean up observers
+    return () => {
+      projects.forEach(project => {
+        if (projectRefs.current[project.id]) {
+          observers[project.id]?.unobserve(projectRefs.current[project.id]);
+        }
+      });
+    };
+  }, []);
+
+  // Animation variants
   const titleVariants = {
     hidden: { 
       y: -20, 
@@ -112,46 +128,37 @@ const WorkSection = () => {
   return (
     <div className="min-h-screen bg-black text-white font-unbounded py-16 px-4 relative overflow-hidden" ref={sectionRef}>
       {/* Background decoration */}
-      <div className="absolute top-20 left-0 w-64 h-64 rounded-full bg-[#D80074]/10 filter blur-3xl"></div>
+      <div className="absolute top-20 left-0 w-64 h-96 rounded-full bg-[#D80074]/10 filter blur-3xl"></div>
       <div className="absolute bottom-20 right-0 w-96 h-96 rounded-full bg-[#D80074]/5 filter blur-3xl"></div>
       
       {/* Section title */}
-      <motion.div 
-        className="text-center py-10 mb-12 relative z-10"
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={containerVariants}
-      >
-        <motion.button 
-          variants={titleVariants} 
-          className="bg-gray-900 text-[#D80074] font-bold px-8 py-3 rounded-full border border-gray-800 hover:bg-[#D80074]/10 transition-all duration-300"
-        >
+      <div className="text-center py-10 mb-12 relative z-10">
+        <button className="bg-gray-900 text-[#D80074] font-bold px-8 py-3 rounded-full border border-gray-800 hover:bg-[#D80074]/10 transition-all duration-300">
           PROJECTS
-        </motion.button>
-        <motion.h2 
-          variants={titleVariants}
-          className="text-4xl md:text-5xl font-bold mt-6"
-        >
-          FEATURED <span className="text-[#D80074]">PROJECTS</span>
-        </motion.h2>
-      </motion.div>
+        </button>
+        <h2 className="text-2xl md:text-3xl font-md mt-6">
+          ENGAGING EXPERIENCES, <span className="text-[#D80074]">MEANINGFUL IMPACTS</span>
+        </h2>
+      </div>
 
       {/* Projects grid */}
-      <motion.div 
-        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12"
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={containerVariants}
-      >
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
         {projects.map((project) => (
-          <motion.div
+          <div
             key={project.id}
-            variants={itemVariants}
-            className="bg-gray-900/80 rounded-2xl border border-gray-800 overflow-hidden transform hover:translate-y-[-5px] transition-all duration-300"
+            ref={el => projectRefs.current[project.id] = el}
+            className={`bg-gray-900/80 rounded-2xl border border-gray-800 overflow-hidden transform hover:translate-y-[-5px] transition-all ${
+              visibleProjects[project.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{
+              transitionProperty: 'opacity, transform',
+              transitionDuration: '1.2s',
+              transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+            }}
             onMouseEnter={() => setActiveProject(project.id)}
             onMouseLeave={() => setActiveProject(null)}
           >
-            <div className="relative overflow-hidden h-64">
+            <div className="relative overflow-hidden h-128">
               <img 
                 src={project.image} 
                 alt={project.title} 
@@ -178,21 +185,19 @@ const WorkSection = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* View more button */}
-      <motion.div 
-        className="text-center mt-16"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 0.8 }}
+      <div 
+        className={`text-center mt-16 transition-opacity duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}
+        style={{ transitionDelay: '0.8s' }}
       >
         <button className="px-8 py-3 rounded-full border-2 border-[#D80074] text-[#D80074] font-bold hover:bg-[#D80074] hover:text-white transition-all duration-300">
           View All Projects
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 };

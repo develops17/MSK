@@ -155,45 +155,52 @@ const BentoGrid = () => {
           animation-timing-function: ease-out;
           opacity: 0;
         }
+
+        html {
+          scroll-behavior: smooth;
+        }
       `}</style>
 
-      <div className="container mx-auto px-4 mb-16">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+      <div className="container mx-auto px-4 mb-8">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
           <button className="px-4 py-2 rounded-full bg-gray-800 text-[#D80074] font-bold text-sm transform hover:scale-105 transition-all">
             WHY US
           </button>
-          <h2 className="text-4xl md:text-5xl font-bold">OUR SPECIALITIES</h2>
+          <h2 className="text-4xl md:text-5xl font-medium text-center">OUR SPECIALITIES</h2>
         </div>
+        <p className="text-gray-300 text-center max-w-2xl text-1xl mx-auto font-satoshi mb-12">
+          At MSK Global, a leading BTL agency serving global clients, we deliver outstanding results that speak for themselves. Our expertise goes beyond expectations, consistently impressing clients with measurable outcomes and impactful statistics.
+        </p>
       </div>
 
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Top Left Bento Card - with background image */}
-          <div 
-            className="p-8 rounded-2xl relative z-10 border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 overflow-hidden min-h-[280px]"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-            <div className="relative z-10">
-              <div className="flex items-center mb-6">
-                
-                <h2 className="text-3xl font-bold">
-                  <span className="text-[#D80074]">150%</span>
-                </h2>
-              </div>
-              <h3 className="text-xl mb-4 font-semibold text-gray-200">CUSTOMER BASE INCREASE</h3>
-              <p className="text-gray-200 mb-4 font-satoshi">
-                Clients choose to stay with us over the long run due to the excitement we drive our day. It's been a valuable task.
-              </p>
-            </div>
-          </div>
+          {/* Top Left Bento Card - with background image and lighter overlay */}
+<div 
+  className="p-8 rounded-2xl relative z-10 border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 overflow-hidden min-h-[350px]"
+  style={{
+    backgroundImage: 'url(https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }}
+>
+  <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+  <div className="relative z-10">
+    <div className="flex items-center mb-6">
+      <h2 className="text-3xl font-bold">
+        <span className="text-[#D80074]">150%</span>
+      </h2>
+    </div>
+    <h3 className="text-xl mb-4 font-semibold text-white">CUSTOMER BASE INCREASE</h3>
+    <p className="text-white mb-4 font-satoshi text-shadow">
+      Clients choose to stay with us over the long run due to the excitement we drive our day. It's been a valuable task.
+    </p>
+  </div>
+</div>
 
-          {/* Top Right Bento Card - black bg with $74M */}
-          <div className="bg-black p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300">
+          {/* Top Right Bento Card - light blackish bg with $74M */}
+          <div className="bg-gray-900 p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300">
             <div className="flex items-center mb-4">
               <h2 className="text-5xl font-bold text-[#D80074]">$150M</h2>
             </div>
@@ -203,11 +210,14 @@ const BentoGrid = () => {
             </p>
           </div>
 
-          {/* Bottom Left Bento Card - just circle and draggable components */}
-          <div className="bg-gray-900/80 p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300">
+          {/* Bottom Left Bento Card - with glowy background behind circle */}
+          <div className="bg-gray-900/80 p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 relative">
+            {/* Glowy background effect */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] bg-[#D80074]/30 rounded-full blur-3xl"></div>
+            
             <div 
               ref={circleRef}
-              className="relative w-[280px] h-[280px] rounded-full mx-auto border-2 border-gray-700 bg-gray-800/40 mb-6 overflow-hidden"
+              className="relative w-[280px] h-[280px] rounded-full mx-auto border-2 border-gray-700 bg-gray-800/40 backdrop-blur-sm mb-6 overflow-hidden z-10"
             >
               {elements.map((element, index) => {
                 const originalIndex = elements.findIndex(e => e.id === element.id);
@@ -231,7 +241,7 @@ const BentoGrid = () => {
                       animationDelay: `${originalIndex * 200}ms`,
                       '--final-rotation': `${elementRotations.current[element.id] || 0}deg`,
                       transform: `rotate(${elementRotations.current[element.id]}deg)`,
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                      boxShadow: '0 4px 6px -1px rgba(199, 172, 172, 0.05), 0 2px 4px -1px rgba(153, 140, 140, 0.06)'
                     }}
                   >
                     <div className="text-xs font-medium px-3">{element.text}</div>
@@ -240,7 +250,7 @@ const BentoGrid = () => {
               })}
             </div>
             
-            <div className="text-center text-sm text-gray-400">
+            <div className="text-center text-sm text-gray-400 relative z-10">
               {animationComplete ? 
                 "Drag any quality to explore (they'll spring back when released)" :
                 "Dropping service qualities..."

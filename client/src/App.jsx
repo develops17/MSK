@@ -10,11 +10,13 @@ import ContactSection from './components/Contact'
 import Footer from './components/Footer'
 import Navbar from './components/navbar'
 import HeroSection from './components/herosection'
+import SmoothScroll from './components/SmoothScroll'
 
 
 function App() {
   return (
     <div className="App">
+      <SmoothScroll>
       <Navbar />
       <HeroSection />
       <CutoutSection />
@@ -25,6 +27,7 @@ function App() {
       <BentoGrid/>
       <ContactSection/>
       <Footer />
+      </SmoothScroll>
     </div>
   )
 }

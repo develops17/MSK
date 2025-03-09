@@ -60,8 +60,8 @@ const Contact = () => {
             viewport={{ once: true }}
             className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center items-center md:items-start"
           >
-            <div className="font-unbounded font-bold leading-none text-center md:text-left">
-              <h1 className="text-7xl sm:text-8xl md:text-9xl text-white">
+            <div className="font-unbounded font-medium leading-none text-center md:text-left">
+              <h1 className="text-7xl sm:text-8xl md:text-9xl text-white mb-[-10px]">
                 Let's
               </h1>
               <h1 className="text-8xl sm:text-9xl md:text-10xl text-[#D80074] -mt-4">
@@ -157,7 +157,7 @@ const Contact = () => {
               <motion.button
                 type="submit"
                 disabled={loading}
-                whileHover={{ scale: 1.02, backgroundColor: "#ffffff", color: "#D80074" }}
+                whileHover={{  backgroundColor: "#ffffff", color: "#D80074" }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 0.9 }}
                 animate={{ opacity: 1 }}
@@ -178,7 +178,7 @@ const Contact = () => {
                       whileHover={{ x: 4 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <FaPaperPlane />
+                      
                     </motion.span>
                   </>
                 )}

@@ -85,31 +85,32 @@ const Footer = () => {
               <div className="text-[#D80074] w-5 flex-shrink-0">
                 <FaPhone />
               </div>
-              <span className="text-sm text-gray-300">+1 093 839 930</span>
+              <span className="text-sm text-gray-300">+1 832 820 4477</span>
             </div>
           </motion.div>
 
           {/* Menu container - removed justify-self-end to align left */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-        
-            <ul className="space-y-3">
-              {["Home", "About", "Services", "Projects", "Blog", "Review", "Contact"].map((item, index) => (
-                <li key={index}>
-                  <a
-                    href="#"
-                    className="text-sm text-gray-300 hover:text-[#D80074] transition-colors duration-300 flex items-center"
-                  >
-                    <span className="mr-2 opacity-0 group-hover:opacity-100">•</span> {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+          {/* Menu container - hidden on mobile, visible on md screens and up */}
+<motion.div 
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.4 }}
+  viewport={{ once: true }}
+  className="hidden md:block" // Hide on mobile, show on md screens and up
+>
+  <ul className="space-y-3">
+    {["Home", "About", "Services", "Projects", "Blog", "Review", "Contact"].map((item, index) => (
+      <li key={index}>
+        <a
+          href="#"
+          className="text-sm text-gray-300 hover:text-[#D80074] transition-colors duration-300 flex items-center"
+        >
+          <span className="mr-2 opacity-0 group-hover:opacity-100">•</span> {item}
+        </a>
+      </li>
+    ))}
+  </ul>
+</motion.div>
         </div>
 
         {/* Bottom section */}
@@ -120,22 +121,11 @@ const Footer = () => {
           viewport={{ once: true }}
           className="relative z-10 border-t border-gray-800 pt-8 mt-8 text-center"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-xs">
-              © {currentYear} MSK Global. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-[#D80074] text-xs transition-colors duration-300">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 hover:text-[#D80074] text-xs transition-colors duration-300">
-                Terms of Service
-              </a>
-              <a href="#" className="text-gray-400 hover:text-[#D80074] text-xs transition-colors duration-300">
-                Cookie Policy
-              </a>
-            </div>
-          </div>
+          <div className="flex flex-col md:flex-row justify-center items-center w-full">
+  <p className="text-gray-400 text-xs text-center">
+    © {currentYear} MSK Global. All rights reserved.
+  </p>
+</div>
         </motion.div>
       </div>
     </footer>

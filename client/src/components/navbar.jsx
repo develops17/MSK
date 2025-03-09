@@ -23,12 +23,12 @@ function Navbar() {
 
   // Navigation links
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Reviews', href: '#reviews' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'HOME', href: '#' },
+    { name: 'ABOUT', href: '#about' },
+    { name: 'SERVICES', href: '#services' },
+    { name: 'PROJECTS', href: '#portfolio' },
+    { name: 'REVIEWS', href: '#reviews' },
+    { name: 'CONTACT', href: '#contact' }
   ];
 
   // Animation variants
@@ -88,9 +88,8 @@ function Navbar() {
                     activeLink === link.name 
                       ? 'text-white bg-[#D80074]' 
                       : 'text-gray-300 hover:bg-gray-900 hover:text-[#D80074]'
-                  }`}
+                  } outline-none focus:outline-none`}
                   onClick={() => setActiveLink(link.name)}
-                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {link.name}
@@ -102,11 +101,10 @@ function Navbar() {
           {/* CTA Button - Desktop */}
           <div className="hidden md:block">
             <motion.button
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-[#D80074] text-white px-6 py-2 rounded-full text-sm font-bold flex items-center transition-all duration-300 hover:bg-white hover:text-[#D80074] border border-transparent hover:border-[#D80074] group"
+              className="bg-[#D80074] text-white px-6 py-2 rounded-full text-sm font-MD flex items-center transition-all duration-300 hover:bg-white hover:text-[#D80074] border border-transparent hover:border-[#D80074] group outline-none focus:outline-none"
             >
-              CONTACT US
+              CONTACT NOW
               <motion.div
                 className="ml-2"
                 initial={{ x: 0 }}
@@ -164,7 +162,7 @@ function Navbar() {
                     activeLink === link.name 
                       ? 'bg-[#D80074]/20 text-[#D80074]' 
                       : 'text-gray-300 hover:bg-gray-900 hover:text-[#D80074]'
-                  }`}
+                  } outline-none focus:outline-none`}
                   onClick={() => {
                     setActiveLink(link.name);
                     setIsOpen(false);
@@ -179,8 +177,8 @@ function Navbar() {
                 variants={linkVariants}
                 className="pt-2 pb-3"
               >
-                <button className="w-full bg-[#D80074] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center transition-colors duration-300 hover:bg-[#D80074]/80">
-                  CONTACT US
+                <button className="w-full bg-[#D80074] text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center transition-colors duration-300 hover:bg-[#D80074]/80 outline-none focus:outline-none">
+                  CONTACT NOW
                   <FaArrowRight className="ml-2" />
                 </button>
               </motion.div>

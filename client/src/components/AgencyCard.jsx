@@ -69,10 +69,10 @@ const AgencyCards = () => {
       <div className="flex-1 mx-4">
         <AgencyCard heading="Pioneers of Drone Light Show" />
       </div>
-      <div className="flex-1 mx-4">
+      <div className="hidden md:block flex-1 mx-4">
         <AgencyCard heading="Operating in USA, UK, Europe & Canada" />
       </div>
-      <div className="flex-1 mx-4">
+      <div className="hidden md:block flex-1 mx-4">
         <AgencyCard heading="Transforming Brand Experiences Globally" />
       </div>
     </div>

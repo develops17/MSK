@@ -73,14 +73,13 @@ function HeroSection() {
   };
 
   return (
-    <section className="relative flex flex-col items-center h-[70vh] w-full bg-black font-unbounded text-center overflow-hidden mb-0">
-      {/* Dynamic background */}
-      {/* <VantaBackground /> */}
-      
-      {/* Decorative elements */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#D80074]/10 filter blur-[80px] animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#D80074]/5 filter blur-[100px] animate-pulse"></div>
-      
+    <section className="relative flex flex-col items-center sm:h-[80vh] md:h-[70vh] w-full bg-black font-unbounded text-center overflow-hidden mb-0">
+  {/* Dynamic background */}
+  {/* <VantaBackground /> */}
+  
+  {/* Decorative elements */}
+  <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#D80074]/10 filter blur-[80px] animate-pulse"></div>
+  <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#D80074]/5 filter blur-[100px] animate-pulse"></div>
       {/* Main content container - increased horizontal padding */}
       <motion.div 
         className="max-w-4xl mx-auto px-8 md:px-16 lg:px-24 flex flex-col items-center z-10 relative mt-[20vh]"
@@ -90,7 +89,7 @@ function HeroSection() {
       >
             {/* Main heading with animation - centered with increased padding */}
             <motion.h1
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-medium text-white mb-6 relative leading-tight mx-auto px-4"
+              className="text-2xl sm:text-3xl md:text-6xl lg:text-5xl font-medium text-white mb-6 relative leading-tight mx-auto px-4"
               variants={itemVariants}
             >
               MSK GLOBAL: <br className="md:hidden" />

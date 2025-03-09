@@ -49,7 +49,7 @@ const CutoutSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative flex items-center justify-center h-[45vh] sm:h-[50vh] md:h-[90vh] w-full bg-gradient-to-b from-black via-black-300 via-pink-700 to-black overflow-hidden"
+      className="relative flex items-center justify-center h-[55vh] sm:h-[55vh] md:h-[90vh] w-full bg-gradient-to-b from-black via-black-300 via-pink-700 to-black overflow-hidden"
     >
       {/* Marquee background text with responsive speed */}
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0">

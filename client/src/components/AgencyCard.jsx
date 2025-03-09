@@ -55,7 +55,7 @@ const AgencyCard = ({ heading }) => {
             </div>
             
             {/* Review count */}
-            <p className="text-xs sm:text-sm font-medium mt-1">200+ 5 Star Reviews</p>
+            <p className="text-xs sm:text-sm font-normal mt-1">200+ Reviews</p>
           </div>
         </div>
       </div>

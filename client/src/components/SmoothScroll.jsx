@@ -6,9 +6,26 @@ const SmoothScroll = ({ children, options = {} }) => {
   const scrollRef = useRef(null);
   const locomotiveScrollRef = useRef(null);
   const [scrollReady, setScrollReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Save scroll position before unload
+  // Check if device is mobile
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Save scroll position before unload - only if locomotive is active
+  useEffect(() => {
+    if (isMobile) return; // Skip on mobile
+    
     const saveScrollPosition = () => {
       if (locomotiveScrollRef.current) {
         const scrollPosition = locomotiveScrollRef.current.scroll.instance.scroll.y;
@@ -18,11 +35,12 @@ const SmoothScroll = ({ children, options = {} }) => {
     
     window.addEventListener('beforeunload', saveScrollPosition);
     return () => window.removeEventListener('beforeunload', saveScrollPosition);
-  }, [scrollReady]);
+  }, [scrollReady, isMobile]);
 
-  // Initialize locomotive scroll
+  // Initialize locomotive scroll - only on desktop
   useEffect(() => {
-    if (!scrollRef.current) return;
+    // Skip locomotive initialization on mobile
+    if (isMobile || !scrollRef.current) return;
     
     // Get saved position
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
@@ -32,13 +50,10 @@ const SmoothScroll = ({ children, options = {} }) => {
       locomotiveScrollRef.current = new LocomotiveScroll({
         el: scrollRef.current,
         smooth: true,
-        smoothMobile: true, // Enable smooth scrolling on mobile
-        tablet: { smooth: true }, // Enable on tablets
-        smartphone: { smooth: true }, // Enable on smartphones
         multiplier: 1,
-        lerp: 0.1, // Lower values = smoother scrolling
+        lerp: 0.1,
         class: 'is-inview',
-        getDirection: true, // Adds direction info to scroll
+        getDirection: true,
         reloadOnContextChange: true,
         ...options,
       });
@@ -54,12 +69,6 @@ const SmoothScroll = ({ children, options = {} }) => {
           });
         }, 100);
       }
-      
-      // Add scroll listener for debugging if needed
-      // locomotiveScrollRef.current.on('scroll', (instance) => {
-      //   console.log('Scrolling', instance);
-      // });
-      
     } catch (error) {
       console.error('Failed to initialize Locomotive Scroll:', error);
     }
@@ -70,10 +79,12 @@ const SmoothScroll = ({ children, options = {} }) => {
         locomotiveScrollRef.current.destroy();
       }
     };
-  }, [options]);
+  }, [options, isMobile]); // Re-initialize when mobile status changes
 
-  // Handle window resize
+  // Handle window resize - only if locomotive is active
   useEffect(() => {
+    if (isMobile) return; // Skip on mobile
+    
     const handleResize = () => {
       if (locomotiveScrollRef.current) {
         locomotiveScrollRef.current.update();
@@ -82,20 +93,25 @@ const SmoothScroll = ({ children, options = {} }) => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [scrollReady]);
+  }, [scrollReady, isMobile]);
   
-  // Update scroll when content changes
+  // Update scroll when content changes - only if locomotive is active
   useEffect(() => {
-    if (scrollReady && locomotiveScrollRef.current) {
-      // Wait for any children animations to complete
-      const timer = setTimeout(() => {
-        locomotiveScrollRef.current.update();
-      }, 200);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [children, scrollReady]);
+    if (isMobile || !scrollReady || !locomotiveScrollRef.current) return; // Skip on mobile
+    
+    const timer = setTimeout(() => {
+      locomotiveScrollRef.current.update();
+    }, 200);
+    
+    return () => clearTimeout(timer);
+  }, [children, scrollReady, isMobile]);
 
+  // On mobile, just render children directly without locomotive scroll container
+  if (isMobile) {
+    return <>{children}</>;
+  }
+
+  // On desktop, use locomotive scroll container
   return (
     <div data-scroll-container ref={scrollRef}>
       {children}

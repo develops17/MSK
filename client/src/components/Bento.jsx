@@ -22,11 +22,27 @@ const BentoGrid = () => {
   const bentoRefs = useRef({});
   const elementPositions = useRef({});
   const elementRotations = useRef({});
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   const calculatePositions = useCallback(() => {
-    const centerX = 140;
-    const centerY = 140;
-    const radius = 100;
+    // Adjust center and radius based on mobile or desktop
+    const centerX = isMobile ? 120 : 140;
+    const centerY = isMobile ? 120 : 140;
+    const radius = isMobile ? 85 : 100;
+    const elementWidth = isMobile ? 45 : 55;
 
     elementPositions.current = {};
 
@@ -40,7 +56,7 @@ const BentoGrid = () => {
     shuffledIndices.forEach((index) => {
       const element = elements[index];
       const angle = (index / elements.length) * 2 * Math.PI;
-      const x = centerX + radius * Math.cos(angle) - 55;
+      const x = centerX + radius * Math.cos(angle) - elementWidth;
       const y = centerY + radius * Math.sin(angle) - 15;
       
       // Calculate tilt angle based on element's position around the circle
@@ -57,17 +73,20 @@ const BentoGrid = () => {
       elementRotations.current[element.id] = rotation;
       elementPositions.current[element.id] = { x, y };
     });
-  }, [elements]);
+  }, [elements, isMobile]);
 
   useEffect(() => {
     calculatePositions();
 
+    // We'll trigger animation complete separately when the card comes into view
     const timeout = setTimeout(() => {
-      setAnimationComplete(true);
+      if (visibleBentos['bottomLeft']) {
+        setAnimationComplete(true);
+      }
     }, elements.length * 200 + 500);
 
     return () => clearTimeout(timeout);
-  }, [calculatePositions, elements]);
+  }, [calculatePositions, elements, isMobile, visibleBentos]);
 
   // Add intersection observer for bento cards
   useEffect(() => {
@@ -104,7 +123,12 @@ const BentoGrid = () => {
 
   const startDrag = (element, e) => {
     if (!animationComplete) return;
-    e.preventDefault();
+    
+    // For touch events, only prevent default on the target element to allow scrolling elsewhere
+    if (e.type !== 'touchstart') {
+      e.preventDefault();
+    }
+    
     setActiveElement(element);
 
     const elementRef = elementRefs.current[element.id];
@@ -113,21 +137,32 @@ const BentoGrid = () => {
     const elementRect = elementRef.getBoundingClientRect();
     const circleRect = circleRef.current.getBoundingClientRect();
 
-    const offsetX = e.clientX - elementRect.left;
-    const offsetY = e.clientY - elementRect.top;
+    // Handle both mouse and touch events
+    const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+    const offsetX = clientX - elementRect.left;
+    const offsetY = clientY - elementRect.top;
 
     const circleCenterX = circleRect.width / 2;
     const circleCenterY = circleRect.height / 2;
 
-    const handleMouseMove = (moveEvent) => {
-      const mouseX = moveEvent.clientX - circleRect.left;
-      const mouseY = moveEvent.clientY - circleRect.top;
+    // Handle both mouse and touch move events
+    const handleMove = (moveEvent) => {
+      const moveClientX = moveEvent.clientX || (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientX : 0);
+      const moveClientY = moveEvent.clientY || (moveEvent.touches && moveEvent.touches[0] ? moveEvent.touches[0].clientY : 0);
+      
+      // Prevent default only for the dragging element to allow scrolling elsewhere
+      moveEvent.preventDefault();
+
+      const mouseX = moveClientX - circleRect.left;
+      const mouseY = moveClientY - circleRect.top;
 
       const deltaX = mouseX - circleCenterX;
       const deltaY = mouseY - circleCenterY;
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      const maxRadius = circleRect.width / 2 - 55;
+      const maxRadius = circleRect.width / 2 - (isMobile ? 45 : 55);
 
       let newX, newY;
 
@@ -147,7 +182,7 @@ const BentoGrid = () => {
       elementRef.style.zIndex = '10';
     };
 
-    const handleMouseUp = () => {
+    const handleEnd = () => {
       if (!elementRef) return;
 
       elementRef.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
@@ -163,16 +198,20 @@ const BentoGrid = () => {
       }, 500);
 
       setActiveElement(null);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('touchmove', handleMove, { passive: false });
+      document.removeEventListener('mouseup', handleEnd);
+      document.removeEventListener('touchend', handleEnd);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    document.addEventListener('mouseup', handleEnd);
+    document.addEventListener('touchend', handleEnd);
   };
 
   return (
-    <div className="bg-black text-white font-unbounded py-16 px-4 sm:px-6 md:px-4 overflow-hidden w-full">
+    <div className="bg-black text-white font-unbounded py-16 px-4 md:px-8 lg:px-16 overflow-hidden w-full">
       <style jsx global>{`
         @keyframes dropIn {
           0% {
@@ -188,6 +227,11 @@ const BentoGrid = () => {
         .element-drop-in {
           animation: dropIn 0.4s forwards;
           animation-timing-function: ease-out;
+          opacity: 0;
+        }
+        
+        /* Hidden until parent card is visible */
+        .element-hidden {
           opacity: 0;
         }
 
@@ -218,7 +262,7 @@ const BentoGrid = () => {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto mb-12">
+      <div className="w-full px-0 mb-12">
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-10">
           <div className="md:w-1/2">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6">
@@ -229,14 +273,14 @@ const BentoGrid = () => {
             </div>
           </div>
           <div className="md:w-1/2">
-            <p className="text-gray-300 md:text-right text-base font-satoshi font-light">
+            <p className="text-gray-300 text-center md:text-right text-base font-satoshi font-light">
               At MSK Global, a leading BTL agency serving global clients, we deliver outstanding results that speak for themselves. Our expertise goes beyond expectations, consistently impressing clients with measurable outcomes and impactful statistics.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full max-w-[1400px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Top Left Bento Card - wider */}
           <div 
@@ -302,15 +346,8 @@ const BentoGrid = () => {
                     key={element.id}
                     ref={(el) => elementRefs.current[element.id] = el}
                     onMouseDown={(e) => startDrag(element, e)}
-                    onTouchStart={(e) => {
-                      const touch = e.touches[0];
-                      startDrag(element, {
-                        preventDefault: () => e.preventDefault(),
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                      });
-                    }}
-                    className="absolute w-[100px] sm:w-[110px] h-[30px] rounded-[30px] bg-[#D80074] text-white flex justify-center items-center cursor-grab shadow-lg transform element-drop-in hover:brightness-110 hover:scale-105 active:scale-95"
+                    onTouchStart={(e) => startDrag(element, e)}
+                    className={`absolute w-[90px] sm:w-[110px] h-[30px] rounded-[30px] bg-[#D80074] text-white flex justify-center items-center cursor-grab shadow-lg transform ${visibleBentos['bottomLeft'] ? 'element-drop-in' : 'element-hidden'} hover:brightness-110 hover:scale-105 active:scale-95`}
                     style={{
                       left: elementPositions.current[element.id]?.x || 0,
                       top: elementPositions.current[element.id]?.y || 0,

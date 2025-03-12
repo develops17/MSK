@@ -141,7 +141,7 @@ const AchievementsSection = () => {
               }}
               className="circle bg-white bg-opacity-10 font-unbounded backdrop-blur-lg w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 text-white flex items-center justify-center shadow-lg rounded-full mx-auto"
             >
-              <span className="text-center text-xs sm:text-sm md:text-base px-2">30+ Operating Countries</span>
+              <span className="text-center text-xs sm:text-sm md:text-base px-2">30+ Active Countries</span>
             </motion.div>
           )}
         </div>
@@ -152,7 +152,7 @@ const AchievementsSection = () => {
         {/* Cards section */}
         <div className="relative z-10 flex flex-col md:flex-row justify-around items-center gap-4 px-4 py-4">
           <motion.div 
-            className="card bg-black bg-opacity-10 backdrop-blur-md p-4 rounded-lg shadow-lg w-full md:w-1/4"
+            className="card bg-black bg-opacity-5 backdrop-blur-sm p-4 rounded-lg shadow-lg w-full md:w-1/4"
             initial={{ y: 50, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -171,7 +171,7 @@ const AchievementsSection = () => {
             <p className="text-center text-white font-satoshi">We combine cutting-edge technology with creativity to deliver unforgettable experiences</p>
           </motion.div>
           <motion.div 
-            className="card bg-black bg-opacity-10 backdrop-blur-md p-4 rounded-lg shadow-lg w-full md:w-1/4"
+            className="card bg-black bg-opacity-5 backdrop-blur-sm p-4 rounded-lg shadow-lg w-full md:w-1/4"
             initial={{ y: 50, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -190,7 +190,7 @@ const AchievementsSection = () => {
             <p className="text-center text-white font-satoshi">We create high-impact strategies that turn audiences into loyal customers.</p>
           </motion.div>
           <motion.div 
-            className="card bg-black bg-opacity-10 backdrop-blur-md p-4 rounded-lg shadow-lg w-full md:w-1/4"
+            className="card bg-black bg-opacity-5 backdrop-blur-sm p-4 rounded-lg shadow-lg w-full md:w-1/4"
             initial={{ y: 50, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}

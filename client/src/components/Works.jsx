@@ -44,7 +44,7 @@ const WorkSection = () => {
     },
   ];
 
-  // Check if section is in view
+  // Observer setup - same code
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -53,9 +53,7 @@ const WorkSection = () => {
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold: 0.2,
-      }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -69,16 +67,13 @@ const WorkSection = () => {
     };
   }, []);
 
-  // Set up individual observers for each project card
   useEffect(() => {
     const observers = {};
 
-    // Create an observer for each project
     projects.forEach(project => {
       observers[project.id] = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            // Update state when a project becomes visible
             setVisibleProjects(prev => ({
               ...prev,
               [project.id]: true
@@ -90,7 +85,6 @@ const WorkSection = () => {
       );
     });
 
-    // Start observing each project ref
     projects.forEach(project => {
       const ref = projectRefs.current[project.id];
       if (ref) {
@@ -98,7 +92,6 @@ const WorkSection = () => {
       }
     });
 
-    // Clean up observers
     return () => {
       projects.forEach(project => {
         if (projectRefs.current[project.id]) {
@@ -107,23 +100,6 @@ const WorkSection = () => {
       });
     };
   }, []);
-
-  // Animation variants
-  const titleVariants = {
-    hidden: { 
-      y: -20, 
-      opacity: 0 
-    },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10
-      }
-    },
-  };
 
   return (
     <div className="min-h-screen bg-black text-white font-unbounded py-16 px-4 relative overflow-hidden" ref={sectionRef}>
@@ -141,42 +117,48 @@ const WorkSection = () => {
         </h2>
       </div>
 
-      {/* Projects grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-        {projects.map((project) => (
+      {/* Projects grid with staggered layout */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+        {projects.map((project, index) => (
           <div
             key={project.id}
             ref={el => projectRefs.current[project.id] = el}
-            className={`bg-gray-900/80 rounded-2xl border border-gray-800 overflow-hidden transform hover:translate-y-[-5px] transition-all ${
+            className={`${
               visibleProjects[project.id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
+            } ${index % 2 === 1 ? 'md:mt-20' : ''}`}
             style={{
               transitionProperty: 'opacity, transform',
               transitionDuration: '1.2s',
               transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
             }}
-            onMouseEnter={() => setActiveProject(project.id)}
-            onMouseLeave={() => setActiveProject(null)}
           >
-            <div className="relative overflow-hidden h-128">
-              <img 
-                src={project.image} 
-                alt={project.title} 
-                className="w-full h-full object-cover transition-all duration-500 hover:scale-105" 
-              />
-              <div className={`absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 transition-opacity duration-300 ${activeProject === project.id ? 'opacity-100' : ''}`}>
-                <button className="bg-[#D80074] text-white px-6 py-3 rounded-full transform hover:scale-105 transition-all">
-                  View Project
-                </button>
-              </div>
-              <div className="absolute top-4 left-4 bg-[#D80074] text-white text-xs py-1 px-3 rounded-full">
-                {project.category}
+            {/* Image box - separate component */}
+            <div 
+              className="w-full rounded-2xl overflow-hidden transform hover:translate-y-[-5px] transition-all group mb-6"
+              onMouseEnter={() => setActiveProject(project.id)}
+              onMouseLeave={() => setActiveProject(null)}
+            >
+              <div className="relative overflow-hidden h-[350px] md:h-[560px] rounded-2xl border border-gray-800">
+                <img 
+                  src={project.image} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                />
+                <div className={`absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 transition-opacity duration-300 ${activeProject === project.id ? 'opacity-100' : ''}`}>
+                  <button className="bg-[#D80074] text-white px-6 py-3 rounded-full transform hover:scale-105 transition-all">
+                    View Project
+                  </button>
+                </div>
+                <div className="absolute top-4 left-4 bg-[#D80074] text-white text-xs py-1 px-3 rounded-full">
+                  {project.category}
+                </div>
               </div>
             </div>
-
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-[#D80074] mb-2">{project.title}</h3>
-              <p className="text-gray-300 mb-4">{project.description}</p>
+            
+            {/* Details box - separate component */}
+            <div className="w-full p-6 bg-gray-900/80 rounded-2xl border border-gray-800 hover:translate-y-[-5px] transition-all duration-300">
+              <h3 className="text-2xl font-bold text-[#D80074] mb-4">{project.title}</h3>
+              <p className="text-gray-300 mb-6 font-satoshi">{project.description}</p>
               <div className="flex flex-wrap gap-2 mt-4">
                 {project.benefits.map((benefit, index) => (
                   <span key={index} className="bg-gray-800 text-xs text-white px-3 py-1 rounded-full">

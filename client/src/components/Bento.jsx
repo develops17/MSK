@@ -16,8 +16,10 @@ const BentoGrid = () => {
 
   const [activeElement, setActiveElement] = useState(null);
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [visibleBentos, setVisibleBentos] = useState({});
   const circleRef = useRef(null);
   const elementRefs = useRef({});
+  const bentoRefs = useRef({});
   const elementPositions = useRef({});
   const elementRotations = useRef({});
 
@@ -66,6 +68,39 @@ const BentoGrid = () => {
 
     return () => clearTimeout(timeout);
   }, [calculatePositions, elements]);
+
+  // Add intersection observer for bento cards
+  useEffect(() => {
+    const bentoIds = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
+    const observers = {};
+
+    bentoIds.forEach(id => {
+      observers[id] = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleBentos(prev => ({
+              ...prev,
+              [id]: true
+            }));
+            observers[id].unobserve(entry.target);
+          }
+        },
+        { threshold: 0.2 }
+      );
+
+      if (bentoRefs.current[id]) {
+        observers[id].observe(bentoRefs.current[id]);
+      }
+    });
+
+    return () => {
+      bentoIds.forEach(id => {
+        if (bentoRefs.current[id]) {
+          observers[id]?.unobserve(bentoRefs.current[id]);
+        }
+      });
+    };
+  }, []);
 
   const startDrag = (element, e) => {
     if (!animationComplete) return;
@@ -137,7 +172,7 @@ const BentoGrid = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-unbounded py-16">
+    <div className="bg-black text-white font-unbounded py-16 px-4 sm:px-6 md:px-4 overflow-hidden w-full">
       <style jsx global>{`
         @keyframes dropIn {
           0% {
@@ -156,68 +191,109 @@ const BentoGrid = () => {
           opacity: 0;
         }
 
+        @keyframes fadeInDown {
+          0% {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .bento-fade-in {
+          opacity: 0;
+          transform: translateY(-30px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .bento-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
         html {
           scroll-behavior: smooth;
         }
       `}</style>
 
-      <div className="container mx-auto px-4 mb-8">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
-          <button className="px-4 py-2 rounded-full bg-gray-800 text-[#D80074] font-bold text-sm transform hover:scale-105 transition-all">
-            WHY US
-          </button>
-          <h2 className="text-4xl md:text-5xl font-medium text-center">OUR SPECIALITIES</h2>
+      <div className="max-w-7xl mx-auto mb-12">
+        <div className="flex flex-col md:flex-row justify-between gap-6 mb-10">
+          <div className="md:w-1/2">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6">
+              <button className="px-4 py-2 rounded-full bg-gray-800 text-[#D80074] font-bold text-sm transform hover:scale-105 transition-all whitespace-nowrap">
+                WHY US
+              </button>
+              <h2 className="text-3xl md:text-4xl font-medium text-center md:text-left">OUR SPECIALITIES</h2>
+            </div>
+          </div>
+          <div className="md:w-1/2">
+            <p className="text-gray-300 md:text-right text-base font-satoshi font-light">
+              At MSK Global, a leading BTL agency serving global clients, we deliver outstanding results that speak for themselves. Our expertise goes beyond expectations, consistently impressing clients with measurable outcomes and impactful statistics.
+            </p>
+          </div>
         </div>
-        <p className="text-gray-300 text-center max-w-2xl text-1xl mx-auto font-satoshi mb-12">
-          At MSK Global, a leading BTL agency serving global clients, we deliver outstanding results that speak for themselves. Our expertise goes beyond expectations, consistently impressing clients with measurable outcomes and impactful statistics.
-        </p>
       </div>
 
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Top Left Bento Card - with background image */}
-          {/* Top Left Bento Card - with background image and lighter overlay */}
-<div 
-  className="p-8 rounded-2xl relative z-10 border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 overflow-hidden min-h-[350px]"
-  style={{
-    backgroundImage: 'url(https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  }}
->
-  <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-  <div className="relative z-10">
-    <div className="flex items-center mb-6">
-      <h2 className="text-3xl font-bold">
-        <span className="text-[#D80074]">150%</span>
-      </h2>
-    </div>
-    <h3 className="text-xl mb-4 font-semibold text-white">CUSTOMER BASE INCREASE</h3>
-    <p className="text-white mb-4 font-satoshi text-shadow">
-      Clients choose to stay with us over the long run due to the excitement we drive our day. It's been a valuable task.
-    </p>
-  </div>
-</div>
-
-          {/* Top Right Bento Card - light blackish bg with $74M */}
-          <div className="bg-gray-900 p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300">
-            <div className="flex items-center mb-4">
-              <h2 className="text-5xl font-bold text-[#D80074]">$150M</h2>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Top Left Bento Card - wider */}
+          <div 
+            ref={(el) => bentoRefs.current['topLeft'] = el}
+            className={`md:col-span-8 p-6 sm:p-8 rounded-2xl relative z-10 border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 overflow-hidden min-h-[300px] sm:min-h-[350px] bento-fade-in ${visibleBentos['topLeft'] ? 'bento-visible' : ''}`}
+            style={{
+              backgroundImage: 'url(https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              transitionDelay: '0s'
+            }}
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div className="relative z-10 h-full flex flex-col justify-end">
+              <div className="flex items-center mb-3">
+                <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold">
+                  <span className="text-[#ffffff]">150%</span>
+                </h2>
+              </div>
+              <h3 className="text-lg sm:text-xl mb-2 font-semibold text-white">CUSTOMER BASE INCREASE</h3>
+              <p className="text-white mb-2 font-satoshi text-shadow text-sm sm:text-base">
+                Clients choose to stay with us over the long run due to the excitement we drive our day. It's been a valuable task.
+              </p>
             </div>
-            <h3 className="text-xl mb-4 font-semibold text-gray-200">Revenue Generated</h3>
-            <p className="text-gray-400 font-satoshi">
-              We help generated $74M revenue for our clients around the globe.
+          </div>
+
+          {/* Top Right Bento Card - increased width */}
+          <div 
+            ref={(el) => bentoRefs.current['topRight'] = el}
+            className={`md:col-span-4 bg-gray-900 p-6 sm:p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 flex flex-col justify-between bento-fade-in ${visibleBentos['topRight'] ? 'bento-visible' : ''}`}
+            style={{ 
+              transitionDelay: '0.1s'
+            }}
+          >
+            <div>
+              <h2 className="text-4xl sm:text-5xl font-bold text-[#D80074]">$150M</h2>
+              <h3 className="text-lg sm:text-xl mt-2 mb-4 font-semibold text-gray-200">Revenue Generated</h3>
+            </div>
+            <p className="text-gray-400 font-satoshi mt-auto text-sm sm:text-base">
+              We help generated $150M revenue for our clients around the globe.
             </p>
           </div>
 
-          {/* Bottom Left Bento Card - with glowy background behind circle */}
-          <div className="bg-gray-900/80 p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 relative">
-            {/* Glowy background effect */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] bg-[#D80074]/30 rounded-full blur-3xl"></div>
+          {/* Bottom Left Bento Card */}
+          <div 
+            ref={(el) => bentoRefs.current['bottomLeft'] = el}
+            className={`md:col-span-5 bg-gray-900/80 p-6 sm:p-8 rounded-2xl border border-gray-800 transform hover:translate-y-[-5px] transition-all duration-300 relative bento-fade-in ${visibleBentos['bottomLeft'] ? 'bento-visible' : ''}`}
+            style={{ 
+              transitionDelay: '0.2s'
+            }}
+          >
+            {/* Enhanced glowy background effect */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[340px] h-[340px] bg-[#D80074]/40 rounded-full blur-[60px]"></div>
             
             <div 
               ref={circleRef}
-              className="relative w-[280px] h-[280px] rounded-full mx-auto border-2 border-gray-700 bg-gray-800/40 backdrop-blur-sm mb-6 overflow-hidden z-10"
+              className="relative w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] rounded-full mx-auto border-2 border-gray-700 bg-gray-800/40 backdrop-blur-sm overflow-hidden z-10"
             >
               {elements.map((element, index) => {
                 const originalIndex = elements.findIndex(e => e.id === element.id);
@@ -234,7 +310,7 @@ const BentoGrid = () => {
                         clientY: touch.clientY
                       });
                     }}
-                    className="absolute w-[110px] h-[30px] rounded-[30px] bg-[#D80074] text-white flex justify-center items-center cursor-grab shadow-lg transform element-drop-in hover:brightness-110 hover:scale-105 active:scale-95"
+                    className="absolute w-[100px] sm:w-[110px] h-[30px] rounded-[30px] bg-[#D80074] text-white flex justify-center items-center cursor-grab shadow-lg transform element-drop-in hover:brightness-110 hover:scale-105 active:scale-95"
                     style={{
                       left: elementPositions.current[element.id]?.x || 0,
                       top: elementPositions.current[element.id]?.y || 0,
@@ -249,20 +325,21 @@ const BentoGrid = () => {
                 );
               })}
             </div>
-            
-            <div className="text-center text-sm text-gray-400 relative z-10">
-              {animationComplete ? 
-                "Drag any quality to explore (they'll spring back when released)" :
-                "Dropping service qualities..."
-              }
-            </div>
           </div>
 
-          {/* Bottom Right Bento Card - pink background */}
-          <div className="bg-[#D80074] p-8 rounded-2xl border border-[#D80074] transform hover:translate-y-[-5px] transition-all duration-300 text-white">
-            <h3 className="text-xl font-semibold mb-4">Enhanced Brand Visibility</h3>
-            <h2 className="text-5xl font-bold mb-4">5X</h2>
-            <p className="text-white/80 font-satoshi pb-0">
+          {/* Bottom Right Bento Card */}
+          <div 
+            ref={(el) => bentoRefs.current['bottomRight'] = el}
+            className={`md:col-span-7 bg-[#D80074] p-6 sm:p-8 rounded-2xl border border-[#D80074] transform hover:translate-y-[-5px] transition-all duration-300 text-white flex flex-col justify-between min-h-[250px] sm:min-h-[280px] bento-fade-in ${visibleBentos['bottomRight'] ? 'bento-visible' : ''}`}
+            style={{ 
+              transitionDelay: '0.3s'
+            }}
+          >
+            <div>
+              <h3 className="text-lg sm:text-xl text-right font-semibold mb-2">Enhanced Brand Visibility</h3>
+              <h2 className="text-5xl sm:text-6xl md:text-8xl text-right font-bold mb-4">5X</h2>
+            </div>
+            <p className="text-white/80 font-satoshi mt-auto text-sm sm:text-base">
               Our agency helps brands go scaling their brands while we focus on the core things for them 24/7.
             </p>
           </div>

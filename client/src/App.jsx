@@ -1,35 +1,28 @@
-import React from 'react'
-import CutoutSection from './components/CutoutSection'
-import ServicesSection from './components/ServicesSection'
-import './App.css'
-import Brands from './components/Brands'
-import AchievementsSection from './components/Achieve'
-import WorkSection from './components/Works'
-import BentoGrid from './components/Bento'
-import ContactSection from './components/Contact'
-import Footer from './components/Footer'
-import Navbar from './components/navbar'
-import HeroSection from './components/herosection'
-import SmoothScroll from './components/SmoothScroll'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
 
 
+// This is a basic structure - you can add more pages later
 function App() {
   return (
-    <div className="App">
-      <SmoothScroll>
-      <Navbar />
-      <HeroSection />
-      <CutoutSection />
-      <ServicesSection />
-      <Brands />
-      <AchievementsSection />
-      <WorkSection/>
-      <BentoGrid/>
-      <ContactSection/>
-      <Footer />
-      </SmoothScroll>
-    </div>
-  )
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/services" element={<Services/>} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/projects" element={<Projects/>} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

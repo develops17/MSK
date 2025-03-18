@@ -23,12 +23,11 @@ function Navbar() {
 
   // Navigation links
   const navLinks = [
-    { name: 'HOME', href: '#' },
-    { name: 'ABOUT', href: '#about' },
-    { name: 'SERVICES', href: '#services' },
-    { name: 'PROJECTS', href: '#portfolio' },
-    { name: 'REVIEWS', href: '#reviews' },
-    { name: 'CONTACT', href: '#contact' }
+    { name: 'HOME', href: '/' },
+    { name: 'ABOUT', href: '/about' },
+    { name: 'SERVICES', href: '/services' },
+    { name: 'PROJECTS', href: '/projects' },
+    { name: 'CONTACT', href: '/contact' }
   ];
 
   // Animation variants

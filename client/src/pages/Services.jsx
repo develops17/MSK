@@ -108,7 +108,7 @@ function Services() {
     <div className="min-h-screen z-0 bg-black text-white font-unbounded">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-16 mt-16">
+      <div className="container mx-auto px-4 py-28">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
           <div>
             <div className="inline-block px-4 py-1 rounded-full bg-gray-800 text-[#D80074] font-semibold text-sm mb-4">

@@ -196,7 +196,7 @@ const Projects = () => {
     <div className="bg-black text-white min-h-screen">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-16 mt-20">
+      <div className="container mx-auto px-4 py-28">
         {/* Header with brand styling */}
         <div className="mb-16">
           <div className="inline-block px-4 py-1 rounded-full bg-gray-900 text-[#D80074] font-unbounded text-sm mb-4 border border-[#D80074]/30">

@@ -6,12 +6,14 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
+import SmoothScroll from './components/SmoothScroll';
 
 
 // This is a basic structure - you can add more pages later
 function App() {
   return (
     <Router>
+      <SmoothScroll>
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,6 +23,7 @@ function App() {
           <Route path="/projects" element={<Projects/>} />
         </Routes>
       </div>
+      </SmoothScroll>
     </Router>
   );
 }

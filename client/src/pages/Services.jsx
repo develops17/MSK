@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Layers, Calendar, Lightbulb, Megaphone, FileText, Glasses, ShoppingBag, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Header';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 

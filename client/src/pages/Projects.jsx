@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X, Tag, Calendar, MapPin } from 'lucide-react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Header';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';

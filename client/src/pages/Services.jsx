@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Layers, Calendar, Lightbulb, Megaphone, FileText, Glasses, ShoppingBag, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Header from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -106,7 +106,7 @@ function Services() {
 
   return (
     <div className="min-h-screen z-0 bg-black text-white font-unbounded">
-      <Header />
+      <Navbar />
       
       <div className="container mx-auto px-4 py-16 mt-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">

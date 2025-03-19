@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X, Tag, Calendar, MapPin } from 'lucide-react';
-import Header from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -194,7 +194,7 @@ const Projects = () => {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <Header />
+      <Navbar />
       
       <div className="container mx-auto px-4 py-16 mt-20">
         {/* Header with brand styling */}

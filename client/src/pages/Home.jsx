@@ -8,7 +8,7 @@ import WorkSection from '../components/Works'
 import BentoGrid from '../components/Bento'
 import ContactSection from '../components/Contact'
 import Footer from '../components/Footer'
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import HeroSection from '../components/herosection'
 import SmoothScroll from '../components/SmoothScroll'
 

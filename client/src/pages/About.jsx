@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -97,7 +97,7 @@ const About = () => {
         }
       `}</style>
     
-      <Header />
+      <Navbar />
       
       {/* Hero Section with Background Image */}
       <section className="relative h-screen pt-16">
